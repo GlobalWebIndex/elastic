@@ -154,27 +154,27 @@ type AggregationBucketKeyItem struct {
 // Sum returns sum aggregation results.
 // See: https://www.elastic.co/guide/en/elasticsearch/reference/6.2/search-aggregations-metrics-sum-aggregation.html
 func (a Aggregations) Sum(name string) (*AggregationResult, bool) {
-	_, ok := a[name]
-	return nil, ok
+	res, ok := a[name]
+	return res, ok
 }
 
 // Filter returns filter results.
 // See: https://www.elastic.co/guide/en/elasticsearch/reference/6.2/search-aggregations-bucket-filter-aggregation.html
 func (a Aggregations) Filter(name string) (*AggregationResult, bool) {
-	_, ok := a[name]
-	return nil, ok
+	res, ok := a[name]
+	return res, ok
 }
 
 // Filters returns filters results.
 // See: https://www.elastic.co/guide/en/elasticsearch/reference/6.2/search-aggregations-bucket-filters-aggregation.html
 func (a Aggregations) Filters(name string) (*AggregationResult, bool) {
-	_, ok := a[name]
-	return nil, ok
+	res, ok := a[name]
+	return res, ok
 }
 
 // Terms returns terms aggregation results.
 // See: https://www.elastic.co/guide/en/elasticsearch/reference/6.2/search-aggregations-bucket-terms-aggregation.html
 func (a Aggregations) Terms(name string) (*AggregationResult, bool) {
-	_, ok := a[name]
-	return nil, ok
+	res, ok := a[name]
+	return res, ok
 }
