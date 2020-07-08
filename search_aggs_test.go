@@ -3107,8 +3107,8 @@ func TestAggsBucketDateRange(t *testing.T) {
 	if agg.Buckets[0].To == nil {
 		t.Errorf("expected To != %v; got: %v", nil, agg.Buckets[0].To)
 	}
-	if *agg.Buckets[0].To != float64(1.3437792E+12) {
-		t.Errorf("expected To = %v; got: %v", float64(1.3437792E+12), *agg.Buckets[0].To)
+	if *agg.Buckets[0].To != float64(1.3437792e+12) {
+		t.Errorf("expected To = %v; got: %v", float64(1.3437792e+12), *agg.Buckets[0].To)
 	}
 	if agg.Buckets[0].ToAsString != "08-2012" {
 		t.Errorf("expected ToAsString = %q; got: %q", "08-2012", agg.Buckets[0].ToAsString)
@@ -3119,8 +3119,8 @@ func TestAggsBucketDateRange(t *testing.T) {
 	if agg.Buckets[1].From == nil {
 		t.Errorf("expected From != %v; got: %v", nil, agg.Buckets[1].From)
 	}
-	if *agg.Buckets[1].From != float64(1.3437792E+12) {
-		t.Errorf("expected From = %v; got: %v", float64(1.3437792E+12), *agg.Buckets[1].From)
+	if *agg.Buckets[1].From != float64(1.3437792e+12) {
+		t.Errorf("expected From = %v; got: %v", float64(1.3437792e+12), *agg.Buckets[1].From)
 	}
 	if agg.Buckets[1].FromAsString != "08-2012" {
 		t.Errorf("expected FromAsString = %q; got: %q", "08-2012", agg.Buckets[1].FromAsString)
