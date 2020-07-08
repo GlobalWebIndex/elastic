@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestIndexLifecycle(t *testing.T) {
@@ -60,7 +61,7 @@ func TestIndexLifecycle(t *testing.T) {
 
 	// Decode the Source field
 	var tweetGot tweet
-	err = json.Unmarshal(getResult.Source, &tweetGot)
+	err = jsoniter.Unmarshal(getResult.Source, &tweetGot)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -143,7 +144,7 @@ func TestIndexLifecycleWithAutomaticIDGeneration(t *testing.T) {
 
 	// Decode the Source field
 	var tweetGot tweet
-	err = json.Unmarshal(getResult.Source, &tweetGot)
+	err = jsoniter.Unmarshal(getResult.Source, &tweetGot)
 	if err != nil {
 		t.Fatal(err)
 	}

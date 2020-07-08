@@ -5,8 +5,9 @@
 package elastic
 
 import (
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestFetchSourceContextNoFetchSource(t *testing.T) {
@@ -15,7 +16,7 @@ func TestFetchSourceContextNoFetchSource(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -32,7 +33,7 @@ func TestFetchSourceContextNoFetchSourceIgnoreIncludesAndExcludes(t *testing.T) 
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -49,7 +50,7 @@ func TestFetchSourceContextFetchSource(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -66,7 +67,7 @@ func TestFetchSourceContextFetchSourceWithIncludesOnly(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -83,7 +84,7 @@ func TestFetchSourceContextFetchSourceWithIncludesAndExcludes(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}

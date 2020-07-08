@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 const (
@@ -203,7 +204,7 @@ func TestAliasAddAction(t *testing.T) {
 			if tt.Invalid {
 				t.Errorf("#%d: expected to fail", i)
 			} else {
-				dst, err := json.Marshal(src)
+				dst, err := jsoniter.Marshal(src)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -253,7 +254,7 @@ func TestAliasRemoveAction(t *testing.T) {
 			if tt.Invalid {
 				t.Errorf("#%d: expected to fail", i)
 			} else {
-				dst, err := json.Marshal(src)
+				dst, err := jsoniter.Marshal(src)
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -291,7 +292,7 @@ func TestAliasRemoveIndexAction(t *testing.T) {
 			if tt.Invalid {
 				t.Errorf("#%d: expected to fail", i)
 			} else {
-				dst, err := json.Marshal(src)
+				dst, err := jsoniter.Marshal(src)
 				if err != nil {
 					t.Fatal(err)
 				}

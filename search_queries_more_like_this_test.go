@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestMoreLikeThisQuerySourceWithLikeText(t *testing.T) {
@@ -16,7 +17,7 @@ func TestMoreLikeThisQuerySourceWithLikeText(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,7 +39,7 @@ func TestMoreLikeThisQuerySourceWithLikeAndUnlikeItems(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatal(err)
 	}

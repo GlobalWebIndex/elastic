@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/json-iterator/go"
 
 	"github.com/olivere/elastic/v7/uritemplates"
 )
@@ -258,20 +259,20 @@ type IndicesShardsSyncedFlushResultFailure struct {
 
 // UnmarshalJSON parses the output from Synced Flush API.
 func (resp *IndicesSyncedFlushResponse) UnmarshalJSON(data []byte) error {
-	m := make(map[string]json.RawMessage)
-	err := json.Unmarshal(data, &m)
+	m := make(map[string]jsoniter.RawMessage)
+	err := jsoniter.Unmarshal(data, &m)
 	if err != nil {
 		return err
 	}
 	resp.Index = make(map[string]*IndicesShardsSyncedFlushResult)
 	for k, v := range m {
 		if k == "_shards" {
-			if err := json.Unmarshal(v, &resp.Shards); err != nil {
+			if err := jsoniter.Unmarshal(v, &resp.Shards); err != nil {
 				return err
 			}
 		} else {
 			ix := new(IndicesShardsSyncedFlushResult)
-			if err := json.Unmarshal(v, &ix); err != nil {
+			if err := jsoniter.Unmarshal(v, &ix); err != nil {
 				return err
 			}
 			resp.Index[k] = ix

@@ -6,12 +6,13 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestBulk(t *testing.T) {
@@ -104,7 +105,7 @@ func TestBulk(t *testing.T) {
 		t.Fatal("expected doc source to be != nil; got nil")
 	}
 	var updatedTweet tweet
-	err = json.Unmarshal(doc.Source, &updatedTweet)
+	err = jsoniter.Unmarshal(doc.Source, &updatedTweet)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -147,7 +148,7 @@ func TestBulk(t *testing.T) {
 	if doc.Source == nil {
 		t.Fatal("expected doc source to be != nil; got nil")
 	}
-	err = json.Unmarshal(doc.Source, &updatedTweet)
+	err = jsoniter.Unmarshal(doc.Source, &updatedTweet)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -345,7 +346,7 @@ func TestBulkIndexDeleteUpdate(t *testing.T) {
 		t.Fatalf("expected updated[0].GetResult.Found to be != %v; got %v", want, have)
 	}
 	var doc tweet
-	if err := json.Unmarshal(updated[0].GetResult.Source, &doc); err != nil {
+	if err := jsoniter.Unmarshal(updated[0].GetResult.Source, &doc); err != nil {
 		t.Fatalf("expected to unmarshal updated[0].GetResult.Source; got %v", err)
 	}
 	if want, have := 42, doc.Retweets; want != have {
@@ -434,7 +435,7 @@ func TestFailedBulkRequests(t *testing.T) {
 }`
 
 	var resp BulkResponse
-	err := json.Unmarshal([]byte(js), &resp)
+	err := jsoniter.Unmarshal([]byte(js), &resp)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -5,8 +5,9 @@
 package elastic
 
 import (
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestXPackWatcherGetWatchBuildURL(t *testing.T) {
@@ -79,7 +80,7 @@ func TestXPackWatchActionStatus_UnmarshalJSON(t *testing.T) {
 
 	for i, test := range tests {
 		var status XPackWatchActionStatus
-		err := json.Unmarshal(test.Input, &status)
+		err := jsoniter.Unmarshal(test.Input, &status)
 		if err != nil {
 			t.Errorf("#%d: expected no error, got %v", i+1, err)
 		}

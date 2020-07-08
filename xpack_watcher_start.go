@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/json-iterator/go"
 )
 
 // XPackWatcherStartService starts the watcher service if it is not already running.
@@ -125,7 +126,7 @@ func (s *XPackWatcherStartService) Do(ctx context.Context) (*XPackWatcherStartRe
 
 	// Return operation response
 	ret := new(XPackWatcherStartResponse)
-	if err := json.Unmarshal(res.Body, ret); err != nil {
+	if err := jsoniter.Unmarshal(res.Body, ret); err != nil {
 		return nil, err
 	}
 	return ret, nil

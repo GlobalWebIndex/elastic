@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestDistanceFeatureQueryForDateField(t *testing.T) {
@@ -16,7 +17,7 @@ func TestDistanceFeatureQueryForDateField(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -33,7 +34,7 @@ func TestDistanceFeatureQueryForGeoField(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}

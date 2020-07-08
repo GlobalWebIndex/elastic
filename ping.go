@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/json-iterator/go"
 )
 
 // PingService checks if an Elasticsearch server on a given URL is alive.
@@ -188,7 +189,7 @@ func (s *PingService) Do(ctx context.Context) (*PingResult, int, error) {
 	var ret *PingResult
 	if !s.httpHeadOnly {
 		ret = new(PingResult)
-		if err := json.NewDecoder(res.Body).Decode(ret); err != nil {
+		if err := jsoniter.NewDecoder(res.Body).Decode(ret); err != nil {
 			return nil, res.StatusCode, err
 		}
 	}

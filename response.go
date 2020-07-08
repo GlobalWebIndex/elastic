@@ -5,11 +5,12 @@
 package elastic
 
 import (
-	"encoding/json"
 	"errors"
 	"io"
 	"io/ioutil"
 	"net/http"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 var (
@@ -25,7 +26,7 @@ type Response struct {
 	// Keys in the map are canonicalized (see http.CanonicalHeaderKey).
 	Header http.Header
 	// Body is the deserialized response body.
-	Body json.RawMessage
+	Body jsoniter.RawMessage
 	// DeprecationWarnings lists all deprecation warnings returned from
 	// Elasticsearch.
 	DeprecationWarnings []string
@@ -55,7 +56,7 @@ func (c *Client) newResponse(res *http.Response, maxBodySize int64) (*Response, 
 		}
 		// HEAD requests return a body but no content
 		if len(slurp) > 0 {
-			r.Body = json.RawMessage(slurp)
+			r.Body = jsoniter.RawMessage(slurp)
 		}
 	}
 	return r, nil

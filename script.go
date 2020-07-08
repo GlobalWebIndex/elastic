@@ -5,10 +5,11 @@
 package elastic
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 // Script holds all the parameters necessary to compile or find in cache
@@ -116,7 +117,7 @@ func (s *Script) rawScriptSource(script string) (interface{}, error) {
 	if !strings.HasPrefix(v, "{") && !strings.HasPrefix(v, `"`) {
 		v = fmt.Sprintf("%q", v)
 	}
-	raw := json.RawMessage(v)
+	raw := jsoniter.RawMessage(v)
 	return &raw, nil
 }
 

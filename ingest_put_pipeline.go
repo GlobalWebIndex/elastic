@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/json-iterator/go"
 
 	"github.com/olivere/elastic/v7/uritemplates"
 )
@@ -196,7 +197,7 @@ func (s *IngestPutPipelineService) Do(ctx context.Context) (*IngestPutPipelineRe
 
 	// Return operation response
 	ret := new(IngestPutPipelineResponse)
-	if err := json.Unmarshal(res.Body, ret); err != nil {
+	if err := jsoniter.Unmarshal(res.Body, ret); err != nil {
 		return nil, err
 	}
 	return ret, nil

@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestSyncedFlush(t *testing.T) {
@@ -100,7 +101,7 @@ func TestSyncedFlushResponse(t *testing.T) {
 	 }`
 
 	var resp IndicesSyncedFlushResponse
-	if err := json.Unmarshal([]byte(js), &resp); err != nil {
+	if err := jsoniter.Unmarshal([]byte(js), &resp); err != nil {
 		t.Fatal(err)
 	}
 	if want, have := 4, resp.Shards.Total; want != have {

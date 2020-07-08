@@ -5,8 +5,9 @@
 package elastic
 
 import (
-	"encoding/json"
 	"strings"
+
+	"github.com/json-iterator/go"
 )
 
 // SearchRequest combines a search request and its
@@ -519,7 +520,7 @@ func (r *SearchRequest) Body() (string, error) {
 		if err != nil {
 			return "", err
 		}
-		body, err := json.Marshal(src)
+		body, err := jsoniter.Marshal(src)
 		if err != nil {
 			return "", err
 		}
@@ -527,7 +528,7 @@ func (r *SearchRequest) Body() (string, error) {
 	}
 	switch t := r.source.(type) {
 	default:
-		body, err := json.Marshal(r.source)
+		body, err := jsoniter.Marshal(r.source)
 		if err != nil {
 			return "", err
 		}
@@ -537,14 +538,14 @@ func (r *SearchRequest) Body() (string, error) {
 		if err != nil {
 			return "", err
 		}
-		body, err := json.Marshal(src)
+		body, err := jsoniter.Marshal(src)
 		if err != nil {
 			return "", err
 		}
 		return string(body), nil
-	case json.RawMessage:
+	case jsoniter.RawMessage:
 		return string(t), nil
-	case *json.RawMessage:
+	case *jsoniter.RawMessage:
 		return string(*t), nil
 	case string:
 		return t, nil
@@ -564,16 +565,16 @@ func (r *SearchRequest) sourceAsMap() (interface{}, error) {
 	}
 	switch t := r.source.(type) {
 	default:
-		body, err := json.Marshal(r.source)
+		body, err := jsoniter.Marshal(r.source)
 		if err != nil {
 			return "", err
 		}
 		return RawStringQuery(body), nil
 	case *SearchSource:
 		return t.Source()
-	case json.RawMessage:
+	case jsoniter.RawMessage:
 		return RawStringQuery(string(t)), nil
-	case *json.RawMessage:
+	case *jsoniter.RawMessage:
 		return RawStringQuery(string(*t)), nil
 	case string:
 		return RawStringQuery(t), nil

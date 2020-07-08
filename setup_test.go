@@ -7,7 +7,6 @@ package elastic
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -16,6 +15,8 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/json-iterator/go"
 )
 
 const (
@@ -291,7 +292,7 @@ func boolPtr(b bool) *bool { return &b }
 type strictDecoder struct{}
 
 func (d *strictDecoder) Decode(data []byte, v interface{}) error {
-	dec := json.NewDecoder(bytes.NewReader(data))
+	dec := jsoniter.NewDecoder(bytes.NewReader(data))
 	dec.DisallowUnknownFields()
 	return dec.Decode(v)
 }

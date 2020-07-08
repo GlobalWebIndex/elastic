@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestAggsBucketTermsIntegration(t *testing.T) {
@@ -49,7 +50,7 @@ func TestAggsBucketTermsIntegration(t *testing.T) {
 	if want, have := float64(0), agg.Buckets[0].Key; want != have {
 		t.Errorf("Buckets[0].Key: want %v, have %v", want, have)
 	}
-	if want, have := json.Number("0"), agg.Buckets[0].KeyNumber; want != have {
+	if want, have := jsoniter.Number("0"), agg.Buckets[0].KeyNumber; want != have {
 		t.Errorf("agg.Buckets[0].KeyNumber: want %q, have %q", want, have)
 	}
 	if have, err := agg.Buckets[0].KeyNumber.Int64(); err != nil {
@@ -84,7 +85,7 @@ func TestAggsBucketTermsIntegration(t *testing.T) {
 	if want, have := float64(108), agg.Buckets[2].Key; want != have {
 		t.Errorf("Buckets[2].Key: want %v, have %v", want, have)
 	}
-	if want, have := json.Number("108"), agg.Buckets[2].KeyNumber; want != have {
+	if want, have := jsoniter.Number("108"), agg.Buckets[2].KeyNumber; want != have {
 		t.Errorf("Buckets[2].KeyNumber: want %q, have %q", want, have)
 	}
 	if have, err := agg.Buckets[2].KeyNumber.Int64(); err != nil {

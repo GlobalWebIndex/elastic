@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/json-iterator/go"
 
 	"github.com/olivere/elastic/v7/uritemplates"
 )
@@ -200,7 +201,7 @@ func (s *SnapshotCreateService) Do(ctx context.Context) (*SnapshotCreateResponse
 
 	// Return operation response
 	ret := new(SnapshotCreateResponse)
-	if err := json.Unmarshal(res.Body, ret); err != nil {
+	if err := jsoniter.Unmarshal(res.Body, ret); err != nil {
 		return nil, err
 	}
 	return ret, nil

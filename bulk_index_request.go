@@ -7,9 +7,10 @@ package elastic
 //go:generate easyjson bulk_index_request.go
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/json-iterator/go"
 )
 
 // BulkIndexRequest is a request to add a document to Elasticsearch.
@@ -225,7 +226,7 @@ func (r *BulkIndexRequest) Source() ([]string, error) {
 		body, err = command.MarshalJSON()
 	} else {
 		// encoding/json
-		body, err = json.Marshal(command)
+		body, err = jsoniter.Marshal(command)
 	}
 	if err != nil {
 		return nil, err
@@ -237,14 +238,14 @@ func (r *BulkIndexRequest) Source() ([]string, error) {
 	if r.doc != nil {
 		switch t := r.doc.(type) {
 		default:
-			body, err := json.Marshal(r.doc)
+			body, err := jsoniter.Marshal(r.doc)
 			if err != nil {
 				return nil, err
 			}
 			lines[1] = string(body)
-		case json.RawMessage:
+		case jsoniter.RawMessage:
 			lines[1] = string(t)
-		case *json.RawMessage:
+		case *jsoniter.RawMessage:
 			lines[1] = string(*t)
 		case string:
 			lines[1] = t

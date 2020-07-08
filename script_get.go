@@ -6,12 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/olivere/elastic/v7/uritemplates"
 )
 
@@ -163,7 +163,7 @@ func (s *GetScriptService) Do(ctx context.Context) (*GetScriptResponse, error) {
 // GetScriptResponse is the result of getting a stored script
 // in Elasticsearch.
 type GetScriptResponse struct {
-	Id     string          `json:"_id"`
-	Found  bool            `json:"found"`
-	Script json.RawMessage `json:"script"`
+	Id     string              `json:"_id"`
+	Found  bool                `json:"found"`
+	Script jsoniter.RawMessage `json:"script"`
 }

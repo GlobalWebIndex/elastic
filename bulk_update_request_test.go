@@ -5,12 +5,13 @@
 package elastic
 
 import (
-	"encoding/json"
 	"testing"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 func TestBulkUpdateRequestSerialization(t *testing.T) {
-	rawJson := json.RawMessage(`{"counter":42}`)
+	rawJson := jsoniter.RawMessage(`{"counter":42}`)
 	rawString := `{"counter":42}`
 	tests := []struct {
 		Request  BulkableRequest
@@ -113,7 +114,7 @@ func TestBulkUpdateRequestSerialization(t *testing.T) {
 		{
 			Request: NewBulkUpdateRequest().Index("index1").Id("4").
 				ReturnSource(true).
-				Doc(json.RawMessage(`{"counter":42}`)),
+				Doc(jsoniter.RawMessage(`{"counter":42}`)),
 			Expected: []string{
 				`{"update":{"_index":"index1","_id":"4"}}`,
 				`{"doc":{"counter":42},"_source":true}`,

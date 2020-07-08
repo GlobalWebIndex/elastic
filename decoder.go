@@ -6,7 +6,8 @@ package elastic
 
 import (
 	"bytes"
-	"encoding/json"
+
+	"github.com/json-iterator/go"
 )
 
 // Decoder is used to decode responses from Elasticsearch.
@@ -23,7 +24,7 @@ type DefaultDecoder struct{}
 
 // Decode decodes with json.Unmarshal from the Go standard library.
 func (u *DefaultDecoder) Decode(data []byte, v interface{}) error {
-	return json.Unmarshal(data, v)
+	return jsoniter.Unmarshal(data, v)
 }
 
 // NumberDecoder uses json.NewDecoder, with UseNumber() enabled, from
@@ -32,7 +33,7 @@ type NumberDecoder struct{}
 
 // Decode decodes with json.Unmarshal from the Go standard library.
 func (u *NumberDecoder) Decode(data []byte, v interface{}) error {
-	dec := json.NewDecoder(bytes.NewReader(data))
+	dec := jsoniter.NewDecoder(bytes.NewReader(data))
 	dec.UseNumber()
 	return dec.Decode(v)
 }

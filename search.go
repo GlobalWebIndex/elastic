@@ -6,12 +6,13 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"reflect"
 	"strings"
+
+	"github.com/json-iterator/go"
 
 	"github.com/olivere/elastic/v7/uritemplates"
 )
@@ -690,7 +691,7 @@ func (r *SearchResult) Each(typ reflect.Type) []interface{} {
 			slice = append(slice, v.Interface())
 			continue
 		}
-		if err := json.Unmarshal(hit.Source, v.Addr().Interface()); err == nil {
+		if err := jsoniter.Unmarshal(hit.Source, v.Addr().Interface()); err == nil {
 			slice = append(slice, v.Interface())
 		}
 	}
@@ -728,9 +729,9 @@ func (h *TotalHits) UnmarshalJSON(data []byte) error {
 		Value    int64  `json:"value"`    // value of the total hit count
 		Relation string `json:"relation"` // how the value should be interpreted: accurate ("eq") or a lower bound ("gte")
 	}
-	if err := json.Unmarshal(data, &v); err != nil {
+	if err := jsoniter.Unmarshal(data, &v); err != nil {
 		var count int64
-		if err2 := json.Unmarshal(data, &count); err2 != nil {
+		if err2 := jsoniter.Unmarshal(data, &count); err2 != nil {
 			return err // return inner error
 		}
 		h.Value = count
@@ -755,7 +756,7 @@ type SearchHit struct {
 	PrimaryTerm    *int64                         `json:"_primary_term"`
 	Sort           []interface{}                  `json:"sort,omitempty"`            // sort information
 	Highlight      SearchHitHighlight             `json:"highlight,omitempty"`       // highlighter information
-	Source         json.RawMessage                `json:"_source,omitempty"`         // stored document source
+	Source         jsoniter.RawMessage            `json:"_source,omitempty"`         // stored document source
 	Fields         map[string]interface{}         `json:"fields,omitempty"`          // returned (stored) fields
 	Explanation    *SearchExplanation             `json:"_explanation,omitempty"`    // explains how the score was computed
 	MatchedQueries []string                       `json:"matched_queries,omitempty"` // matched queries
@@ -809,7 +810,7 @@ type SearchSuggestionOption struct {
 	Highlighted     string              `json:"highlighted"`
 	CollateMatch    bool                `json:"collate_match"`
 	Freq            int                 `json:"freq"` // from TermSuggestion.Option in Java API
-	Source          json.RawMessage     `json:"_source"`
+	Source          jsoniter.RawMessage `json:"_source"`
 	Contexts        map[string][]string `json:"contexts,omitempty"`
 }
 

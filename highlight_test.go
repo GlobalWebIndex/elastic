@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestHighlighterField(t *testing.T) {
@@ -16,7 +17,7 @@ func TestHighlighterField(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -33,7 +34,7 @@ func TestHighlighterFieldWithOptions(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -50,7 +51,7 @@ func TestHighlightWithStringField(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -68,7 +69,7 @@ func TestHighlightWithFields(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -87,7 +88,7 @@ func TestHighlightWithMultipleFields(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -106,7 +107,7 @@ func TestHighlighterWithExplicitFieldOrder(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -125,7 +126,7 @@ func TestHighlightWithBoundarySettings(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -192,7 +193,7 @@ func TestHighlightWithTermQuery(t *testing.T) {
 
 	hit := searchResult.Hits.Hits[0]
 	var tw tweet
-	if err := json.Unmarshal(hit.Source, &tw); err != nil {
+	if err := jsoniter.Unmarshal(hit.Source, &tw); err != nil {
 		t.Fatal(err)
 	}
 	if hit.Highlight == nil || len(hit.Highlight) == 0 {

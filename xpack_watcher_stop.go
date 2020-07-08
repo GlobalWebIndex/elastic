@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/json-iterator/go"
 )
 
 // XPackWatcherStopService stops the watcher service if it is running.
@@ -125,7 +126,7 @@ func (s *XPackWatcherStopService) Do(ctx context.Context) (*XPackWatcherStopResp
 
 	// Return operation response
 	ret := new(XPackWatcherStopResponse)
-	if err := json.Unmarshal(res.Body, ret); err != nil {
+	if err := jsoniter.Unmarshal(res.Body, ret); err != nil {
 		return nil, err
 	}
 	return ret, nil

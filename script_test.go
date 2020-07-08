@@ -5,8 +5,9 @@
 package elastic
 
 import (
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestScriptingDefault(t *testing.T) {
@@ -15,7 +16,7 @@ func TestScriptingDefault(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -32,7 +33,7 @@ func TestScriptingInline(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -49,7 +50,7 @@ func TestScriptingStored(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -88,7 +89,7 @@ func TestScriptingSource(t *testing.T) {
 		if err != nil {
 			t.Fatalf("unable to generate source for %s: %v", tt.Input, err)
 		}
-		out, err := json.Marshal(src)
+		out, err := jsoniter.Marshal(src)
 		if err != nil {
 			t.Fatalf("unable to generate JSON for %s: %v", tt.Input, err)
 		}

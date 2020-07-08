@@ -6,10 +6,11 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"io"
 	_ "net/http"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestScroll(t *testing.T) {
@@ -75,7 +76,7 @@ func TestScroll(t *testing.T) {
 				t.Fatalf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 			}
 			item := make(map[string]interface{})
-			err := json.Unmarshal(hit.Source, &item)
+			err := jsoniter.Unmarshal(hit.Source, &item)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -177,7 +178,7 @@ func TestScrollWithQueryAndSort(t *testing.T) {
 				t.Fatalf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 			}
 			item := make(map[string]interface{})
-			err := json.Unmarshal(hit.Source, &item)
+			err := jsoniter.Unmarshal(hit.Source, &item)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -297,7 +298,7 @@ func TestScrollWithBody(t *testing.T) {
 					t.Fatalf("#%d: expected SearchResult.Hits.Hit.Index = %q; got %q", i, testIndexName, hit.Index)
 				}
 				item := make(map[string]interface{})
-				err := json.Unmarshal(hit.Source, &item)
+				err := jsoniter.Unmarshal(hit.Source, &item)
 				if err != nil {
 					t.Fatalf("#%d: %v", i, err)
 				}
@@ -360,7 +361,7 @@ func TestScrollWithSlice(t *testing.T) {
 				t.Fatalf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 			}
 			item := make(map[string]interface{})
-			err := json.Unmarshal(hit.Source, &item)
+			err := jsoniter.Unmarshal(hit.Source, &item)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -497,7 +498,7 @@ func TestScrollWithFilterPath(t *testing.T) {
 				t.Fatalf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 			}
 			item := make(map[string]interface{})
-			err := json.Unmarshal(hit.Source, &item)
+			err := jsoniter.Unmarshal(hit.Source, &item)
 			if err != nil {
 				t.Fatal(err)
 			}

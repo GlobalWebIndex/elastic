@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestUpdateByQueryBuildURL(t *testing.T) {
@@ -88,7 +89,7 @@ func TestUpdateByQueryBodyWithQuery(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, err := json.Marshal(out)
+	b, err := jsoniter.Marshal(out)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -108,7 +109,7 @@ func TestUpdateByQueryBodyWithQueryAndScript(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, err := json.Marshal(out)
+	b, err := jsoniter.Marshal(out)
 	if err != nil {
 		t.Fatal(err)
 	}

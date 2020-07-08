@@ -6,9 +6,10 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	_ "net/http"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestMultiSearch(t *testing.T) {
@@ -90,7 +91,7 @@ func TestMultiSearch(t *testing.T) {
 			t.Errorf("expected Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -111,7 +112,7 @@ func TestMultiSearch(t *testing.T) {
 			t.Errorf("expected Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -193,7 +194,7 @@ func TestMultiSearchWithStrings(t *testing.T) {
 			t.Errorf("expected Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -214,7 +215,7 @@ func TestMultiSearchWithStrings(t *testing.T) {
 			t.Errorf("expected Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -295,7 +296,7 @@ func TestMultiSearchWithOneRequest(t *testing.T) {
 			t.Errorf("expected Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}

@@ -6,12 +6,13 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/json-iterator/go"
 )
 
 func TestSearchMatchAll(t *testing.T) {
@@ -43,7 +44,7 @@ func TestSearchMatchAll(t *testing.T) {
 			t.Errorf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -393,7 +394,7 @@ func TestSearchSorting(t *testing.T) {
 			t.Errorf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -466,7 +467,7 @@ func TestSearchSortingBySorters(t *testing.T) {
 			t.Errorf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1214,7 +1215,7 @@ func TestSearchFilterPath(t *testing.T) {
 			t.Fatalf("expected index %q, got %q", want, got)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1327,7 +1328,7 @@ func TestSearchResultWithFieldCollapsing(t *testing.T) {
 			t.Fatalf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1378,7 +1379,7 @@ func TestSearchResultWithFieldCollapsingAndInnerHits(t *testing.T) {
 			t.Fatalf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1473,7 +1474,7 @@ func TestSearchWithDocvalueFields(t *testing.T) {
 			t.Errorf("expected SearchResult.Hits.Hit.Index = %q; got %q", testIndexName, hit.Index)
 		}
 		item := make(map[string]interface{})
-		err := json.Unmarshal(hit.Source, &item)
+		err := jsoniter.Unmarshal(hit.Source, &item)
 		if err != nil {
 			t.Fatal(err)
 		}

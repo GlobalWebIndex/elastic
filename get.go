@@ -6,12 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/olivere/elastic/v7/uritemplates"
 )
 
@@ -308,7 +308,7 @@ type GetResult struct {
 	Version     *int64                 `json:"_version"` // version number, when Version is set to true in SearchService
 	SeqNo       *int64                 `json:"_seq_no"`
 	PrimaryTerm *int64                 `json:"_primary_term"`
-	Source      json.RawMessage        `json:"_source,omitempty"`
+	Source      jsoniter.RawMessage    `json:"_source,omitempty"`
 	Found       bool                   `json:"found,omitempty"`
 	Fields      map[string]interface{} `json:"fields,omitempty"`
 	//Error     string                 `json:"error,omitempty"` // used only in MultiGet

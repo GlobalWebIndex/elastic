@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/json-iterator/go"
 )
 
 // MultiSearch executes one or more searches in one roundtrip.
@@ -129,7 +130,7 @@ func (s *MultiSearchService) Do(ctx context.Context) (*MultiSearchResult, error)
 			sr = sr.Index(s.indices...)
 		}
 
-		header, err := json.Marshal(sr.header())
+		header, err := jsoniter.Marshal(sr.header())
 		if err != nil {
 			return nil, err
 		}

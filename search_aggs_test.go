@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"reflect"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/json-iterator/go"
 )
 
 // TestAggs is an integration test for most aggregation types.
@@ -1078,7 +1079,7 @@ func TestAggs(t *testing.T) {
 			t.Fatal("expected != nil; got: nil")
 		}
 		var tw tweet
-		if err := json.Unmarshal(hit.Source, &tw); err != nil {
+		if err := jsoniter.Unmarshal(hit.Source, &tw); err != nil {
 			t.Fatalf("expected no error; got: %v", err)
 		}
 		if tw.Message != "Welcome to Golang and Elasticsearch." {
@@ -1604,7 +1605,7 @@ func TestAggsMarshal(t *testing.T) {
 	if _, found := searchResult.Aggregations["dhagg"]; !found {
 		t.Fatalf("expected aggregation %q", "dhagg")
 	}
-	buf, err := json.Marshal(searchResult)
+	buf, err := jsoniter.Marshal(searchResult)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1622,7 +1623,7 @@ func TestAggsMetricsMin(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -1650,7 +1651,7 @@ func TestAggsMetricsMax(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -1678,7 +1679,7 @@ func TestAggsMetricsSum(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -1706,7 +1707,7 @@ func TestAggsMetricsAvg(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -1734,7 +1735,7 @@ func TestAggsMetricsValueCount(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -1762,7 +1763,7 @@ func TestAggsMetricsCardinality(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -1794,7 +1795,7 @@ func TestAggsMetricsStats(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -1850,7 +1851,7 @@ func TestAggsMetricsExtendedStats(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -1947,7 +1948,7 @@ func TestAggsMatrixStats(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2024,7 +2025,7 @@ func TestAggsMetricsPercentiles(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2076,7 +2077,7 @@ func TestAggsMetricsPercentileRanks(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2192,7 +2193,7 @@ func TestAggsMetricsTopHits(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2311,7 +2312,7 @@ func TestAggsBucketGlobal(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2352,7 +2353,7 @@ func TestAggsBucketFilter(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2405,7 +2406,7 @@ func TestAggsBucketFiltersWithBuckets(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2468,7 +2469,7 @@ func TestAggsBucketFiltersWithNamedBuckets(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2533,7 +2534,7 @@ func TestAggsBucketAdjacencyMatrix(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2583,7 +2584,7 @@ func TestAggsBucketMissing(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2610,7 +2611,7 @@ func TestAggsBucketNested(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2650,7 +2651,7 @@ func TestAggsBucketReverseNested(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2675,7 +2676,7 @@ func TestAggsBucketChildren(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2708,7 +2709,7 @@ func TestAggsBucketTerms(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2756,7 +2757,7 @@ func TestAggsBucketTermsWithNumericKeys(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2814,7 +2815,7 @@ func TestAggsBucketTermsWithBoolKeys(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2862,7 +2863,7 @@ func TestAggsBucketSignificantTerms(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2916,7 +2917,7 @@ func TestAggsBucketSampler(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -2959,7 +2960,7 @@ func TestAggsBucketDiversifiedSampler(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3005,7 +3006,7 @@ func TestAggsBucketRange(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3083,7 +3084,7 @@ func TestAggsBucketDateRange(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3152,7 +3153,7 @@ func TestAggsBucketIPRange(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3223,7 +3224,7 @@ func TestAggsBucketHistogram(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3289,7 +3290,7 @@ func TestAggsBucketDateHistogram(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3350,7 +3351,7 @@ func TestAggsMetricsGeoBounds(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3393,7 +3394,7 @@ func TestAggsBucketGeoHash(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3437,7 +3438,7 @@ func TestAggsMetricsGeoCentroid(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3485,7 +3486,7 @@ func TestAggsBucketGeoDistance(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3576,7 +3577,7 @@ func TestAggsSubAggregates(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(rs), &aggs)
+	err := jsoniter.Unmarshal([]byte(rs), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3641,7 +3642,7 @@ func TestAggsPipelineAvgBucket(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3669,7 +3670,7 @@ func TestAggsPipelineSumBucket(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3698,7 +3699,7 @@ func TestAggsPipelineMaxBucket(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3733,7 +3734,7 @@ func TestAggsPipelineMinBucket(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3767,7 +3768,7 @@ func TestAggsPipelineMovAvg(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3795,7 +3796,7 @@ func TestAggsPipelineDerivative(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3826,7 +3827,7 @@ func TestAggsPipelinePercentilesBucket(t *testing.T) {
     }
 }`
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3855,7 +3856,7 @@ func TestAggsPipelineStatsBucket(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3904,7 +3905,7 @@ func TestAggsPipelineCumulativeSum(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3932,7 +3933,7 @@ func TestAggsPipelineBucketScript(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -3960,7 +3961,7 @@ func TestAggsPipelineSerialDiff(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -4013,7 +4014,7 @@ func TestAggsComposite(t *testing.T) {
 	}`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %v", err)
 	}
@@ -4186,7 +4187,7 @@ func TestAggsScriptedMetric(t *testing.T) {
 }`
 
 	aggs := new(Aggregations)
-	err := json.Unmarshal([]byte(s), &aggs)
+	err := jsoniter.Unmarshal([]byte(s), &aggs)
 	if err != nil {
 		t.Fatalf("expected no error decoding; got: %+v", err)
 	}
@@ -4209,7 +4210,7 @@ func TestAggsScriptedMetric(t *testing.T) {
 	if agg == nil {
 		t.Fatalf("expected aggregation != nil; got: %+v", agg)
 	}
-	if v, ok := agg.Value.(json.Number); ok {
+	if v, ok := agg.Value.(jsoniter.Number); ok {
 		if iv, err := v.Int64(); err != nil || iv != 1 {
 			t.Fatalf("expected aggregation value is 1; got: %+v", iv)
 		}
@@ -4224,7 +4225,7 @@ func TestAggsScriptedMetric(t *testing.T) {
 	if agg == nil {
 		t.Fatalf("expected aggregation != nil; got: %+v", agg)
 	}
-	if v, ok := agg.Value.(json.Number); ok {
+	if v, ok := agg.Value.(jsoniter.Number); ok {
 		if iv, err := v.Float64(); err != nil || iv != 2.5 {
 			t.Fatalf("expected aggregation value is 2.5; got: %+v", iv)
 		}
@@ -4251,7 +4252,7 @@ func TestAggsScriptedMetric(t *testing.T) {
 		t.Fatalf("expected aggregation != nil; got: %+v", agg)
 	}
 	if v, ok := agg.Value.([]interface{}); ok {
-		expected := []interface{}{json.Number("1"), json.Number("2"), json.Number("3")}
+		expected := []interface{}{jsoniter.Number("1"), jsoniter.Number("2"), jsoniter.Number("3")}
 		if !reflect.DeepEqual(v, expected) {
 			t.Fatalf("expected %+v; got: %+v", expected, v)
 		}

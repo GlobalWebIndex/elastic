@@ -6,12 +6,13 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
+
+	"github.com/json-iterator/go"
 
 	"github.com/olivere/elastic/v7/uritemplates"
 )
@@ -148,7 +149,7 @@ func (s *XPackWatcherGetWatchService) Do(ctx context.Context) (*XPackWatcherGetW
 
 	// Return operation response
 	ret := new(XPackWatcherGetWatchResponse)
-	if err := json.Unmarshal(res.Body, ret); err != nil {
+	if err := jsoniter.Unmarshal(res.Body, ret); err != nil {
 		return nil, err
 	}
 	return ret, nil

@@ -5,14 +5,15 @@
 package elastic
 
 import (
-	"encoding/json"
 	_ "net/http"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestSearchRequestIndex(t *testing.T) {
 	builder := NewSearchRequest().Index("test")
-	data, err := json.Marshal(builder.header())
+	data, err := jsoniter.Marshal(builder.header())
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -25,7 +26,7 @@ func TestSearchRequestIndex(t *testing.T) {
 
 func TestSearchRequestIndices(t *testing.T) {
 	builder := NewSearchRequest().Index("test", "test2")
-	data, err := json.Marshal(builder.header())
+	data, err := jsoniter.Marshal(builder.header())
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -49,7 +50,7 @@ func TestSearchRequestHasIndices(t *testing.T) {
 
 func TestSearchRequestIgnoreUnavailable(t *testing.T) {
 	builder := NewSearchRequest().Index("test").IgnoreUnavailable(true)
-	data, err := json.Marshal(builder.header())
+	data, err := jsoniter.Marshal(builder.header())
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}

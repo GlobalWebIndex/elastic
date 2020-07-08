@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestGet(t *testing.T) {
@@ -78,7 +79,7 @@ func TestGetWithSourceFiltering(t *testing.T) {
 		t.Errorf("expected Source != nil; got %v", res.Source)
 	}
 	var tw tweet
-	err = json.Unmarshal(res.Source, &tw)
+	err = jsoniter.Unmarshal(res.Source, &tw)
 	if err != nil {
 		t.Fatal(err)
 	}

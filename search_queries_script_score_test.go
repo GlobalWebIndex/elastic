@@ -6,8 +6,9 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestScriptScoreQuery(t *testing.T) {
@@ -19,7 +20,7 @@ func TestScriptScoreQuery(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	data, err := json.Marshal(src)
+	data, err := jsoniter.Marshal(src)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -71,7 +72,7 @@ func TestScriptScoreQueryIntegration(t *testing.T) {
 		t.Fatalf("expected Hits.Hit.Score = %v; got %v", want, have)
 	}
 	var tw tweet
-	if err := json.Unmarshal(hit.Source, &tw); err != nil {
+	if err := jsoniter.Unmarshal(hit.Source, &tw); err != nil {
 		t.Fatal(err)
 	}
 	if want, have := "olivere", tw.User; want != have {

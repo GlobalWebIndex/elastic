@@ -6,11 +6,12 @@ package elastic
 
 import (
 	"context"
-	"encoding/json"
 	"net/url"
 	"reflect"
 	"sort"
 	"testing"
+
+	"github.com/json-iterator/go"
 )
 
 func TestFieldCapsURLs(t *testing.T) {
@@ -59,7 +60,7 @@ func TestFieldCapsRequestSerialize(t *testing.T) {
 	req := &FieldCapsRequest{
 		Fields: []string{"creation_date", "answer_count"},
 	}
-	data, err := json.Marshal(req)
+	data, err := jsoniter.Marshal(req)
 	if err != nil {
 		t.Fatalf("marshaling to JSON failed: %v", err)
 	}
@@ -76,7 +77,7 @@ func TestFieldCapsRequestDeserialize(t *testing.T) {
 	}`
 
 	var request FieldCapsRequest
-	if err := json.Unmarshal([]byte(body), &request); err != nil {
+	if err := jsoniter.Unmarshal([]byte(body), &request); err != nil {
 		t.Fatalf("unexpected error during unmarshalling: %v", err)
 	}
 
@@ -121,7 +122,7 @@ func TestFieldCapsResponse(t *testing.T) {
 	}`
 
 	var resp FieldCapsResponse
-	if err := json.Unmarshal([]byte(body), &resp); err != nil {
+	if err := jsoniter.Unmarshal([]byte(body), &resp); err != nil {
 		t.Errorf("unexpected error during unmarshalling: %v", err)
 	}
 

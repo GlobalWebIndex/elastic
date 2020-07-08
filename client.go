@@ -7,7 +7,6 @@ package elastic
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -17,6 +16,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/json-iterator/go"
 
 	"github.com/pkg/errors"
 
@@ -980,7 +981,7 @@ func (c *Client) sniffNode(ctx context.Context, url string) []*conn {
 	defer res.Body.Close()
 
 	var info NodesInfoResponse
-	if err := json.NewDecoder(res.Body).Decode(&info); err == nil {
+	if err := jsoniter.NewDecoder(res.Body).Decode(&info); err == nil {
 		if len(info.Nodes) > 0 {
 			for nodeID, node := range info.Nodes {
 				if c.snifferCallback(node) {

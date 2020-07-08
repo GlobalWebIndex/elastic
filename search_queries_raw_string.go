@@ -4,7 +4,7 @@
 
 package elastic
 
-import "encoding/json"
+import "github.com/json-iterator/go"
 
 // RawStringQuery can be used to treat a string representation of an ES query
 // as a Query.  Example usage:
@@ -21,6 +21,6 @@ func NewRawStringQuery(q string) RawStringQuery {
 // Source returns the JSON encoded body
 func (q RawStringQuery) Source() (interface{}, error) {
 	var f interface{}
-	err := json.Unmarshal([]byte(q), &f)
+	err := jsoniter.Unmarshal([]byte(q), &f)
 	return f, err
 }

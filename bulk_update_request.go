@@ -7,9 +7,10 @@ package elastic
 //go:generate easyjson bulk_update_request.go
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/json-iterator/go"
 )
 
 // BulkUpdateRequest is a request to update a document in Elasticsearch.
@@ -275,7 +276,7 @@ func (r *BulkUpdateRequest) Source() ([]string, error) {
 		body, err = command.MarshalJSON()
 	} else {
 		// encoding/json
-		body, err = json.Marshal(command)
+		body, err = jsoniter.Marshal(command)
 	}
 	if err != nil {
 		return nil, err
@@ -292,11 +293,11 @@ func (r *BulkUpdateRequest) Source() ([]string, error) {
 			doc = r.doc
 		case string:
 			if len(t) > 0 {
-				doc = json.RawMessage(t)
+				doc = jsoniter.RawMessage(t)
 			}
 		case *string:
 			if t != nil && len(*t) > 0 {
-				doc = json.RawMessage(*t)
+				doc = jsoniter.RawMessage(*t)
 			}
 		}
 	}
@@ -321,7 +322,7 @@ func (r *BulkUpdateRequest) Source() ([]string, error) {
 		body, err = data.MarshalJSON()
 	} else {
 		// encoding/json
-		body, err = json.Marshal(data)
+		body, err = jsoniter.Marshal(data)
 	}
 	if err != nil {
 		return nil, err

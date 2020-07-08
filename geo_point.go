@@ -5,10 +5,11 @@
 package elastic
 
 import (
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/json-iterator/go"
 )
 
 // GeoPoint is a geographic position described via latitude and longitude.
@@ -27,7 +28,7 @@ func (pt *GeoPoint) Source() map[string]float64 {
 
 // MarshalJSON encodes the GeoPoint to JSON.
 func (pt *GeoPoint) MarshalJSON() ([]byte, error) {
-	return json.Marshal(pt.Source())
+	return jsoniter.Marshal(pt.Source())
 }
 
 // GeoPointFromLatLon initializes a new GeoPoint by latitude and longitude.
